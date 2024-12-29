@@ -1,60 +1,20 @@
 #include<stdio.h>
-#define MAX 100
-//Khai bao danh sach ke
-int graph[MAX][MAX];
-int visited[MAX];
-int queue[MAX];
-int front = -1;
-int rear = -1;
+#define V 5
+// Ham duyet theo chieu sau DFS
 
-//Ham them vao hang doi
-void enqueue(int value){
-	if(rear == MAX - 1){
-		printf("Hang doi da day\n");
-		return;
-	}
-	if(front == -1){
-		front = 0;
-	}
-	queue[++rear] = value;
-}
-
-//Lay phan tu khoi hnag doi
-int dequeue(){
-	if(front == -1 || front > rear){
-		return -1;
-	}
-	return queue[front++];
-}
-
-//Thuan toan tim kiem theo chieu rong
-void BFSFunction(int start, int n){
-	for(int i = 0; i<n;i++){
-		visited[i] = 0;
-	}
-	enqueue(start);
-	visited[start] = 1;
-	while(front <= rear){
-		int current = dequeue();
-		printf("%d", current);
-		for(int i = 0; i<n; i++){
-			if(graph[current][i] == 1 && !visited[i]){
-				enqueue(i);
-				visited[i] = 1;
-			}
+int visited[V];
+int graph[V][V];
+void DFS(int v, int n){
+	printf("%d",v);
+	visited[v] = 1;
+	for(int i = 0; i < n; i++){
+		if(visited[i] == 0 && graph[v][i] == 1){
+			DFS(i, n);
 		}
 	}
-}
-
+} 
 int main() {
 	int n, u, v, start, edges;
-	
-	for (int i = 0; i < MAX; i++) {
-        for (int j = 0; j < MAX; j++) {
-            graph[i][j] = 0;
-        }
-    }
-    
 	printf("Nhap vao so dinh : ");
 	scanf("%d",&n);
 	
@@ -69,6 +29,7 @@ int main() {
 	}
 	printf("Nhap vao dinh bat dau duyet : ");
 	scanf("%d",&start);
-	BFSFunction(start, n);
+	DFS(start, n);
+	
 	return 0;
 }
